@@ -3,7 +3,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 
-/* config Express routes */
+/** 
+* config Express routes 
+**/
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
@@ -14,17 +16,30 @@ app.get('/hello', function(req, res){
 });
 
 
-/* config Scoket.io event listeners */
+/** 
+* config Scoket.io event listeners 
+**/
 
 io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
+
+	// log new connections
+	console.log('a user connected');
+
+	// log disconnection
+	socket.on('disconnect', function(){
+		console.log('user disconnected');
+	});
+
+	// print new chat messages
+	socket.on('chat message', function(msg){
+		console.log('message: ' + msg);
+	});
 });
 
 
-/* listen to specific ip */
+/**
+* listen to specific ip 
+**/
 
 http.listen(3000, '10.0.0.91', function(){
 	console.log('listening on *:3000');
