@@ -30,9 +30,14 @@ io.on('connection', function(socket){
 		console.log('user disconnected');
 	});
 
-	// print new chat messages
+	// print new chat messages to console
 	socket.on('chat message', function(msg){
 		console.log('message: ' + msg);
+	});
+
+	// emit new messages to all listener clients
+	socket.on('chat message', function(msg){
+		io.emit('chat message', msg);
 	});
 });
 
